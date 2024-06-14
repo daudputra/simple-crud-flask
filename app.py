@@ -52,6 +52,8 @@ def create():
         return redirect(url_for('index'))
     return render_template('create.html')
 
+
+
 @app.route('/delete/<int:id>', methods=['POST'])
 def delete(id):
     cursor = db.cursor()
@@ -60,6 +62,38 @@ def delete(id):
     cursor.close()
 
     return redirect(url_for('index'))
+
+
+
+
+
+@app.route('/user-detail/<int:id>',methods=(['GET']))
+def user_detail(id):
+    try:
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM user_data WHERE id = %s", (id,))
+        user = cursor.fetchone()
+        if user:
+            id, name, email, passwords, age, gender, phone_number, image = user
+            encoded_image = base64.b64encode(image).decode('utf-8') if image else None
+            user_data = {
+                'id': id,
+                'name': name,
+                'email': email,
+                'passwords': passwords,
+                'age': age,
+                'gender': gender,
+                'phone_number': phone_number,
+                'image': encoded_image
+            }
+        else:
+            user_data = None
+        return render_template('detail_user.html', data_user=user_data)
+    except Exception as e:
+        print(e)
+
+
+
 
 @app.route('/edit/<int:id>', methods=['POST', 'GET'])
 def edit(id):
