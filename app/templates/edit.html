@@ -17,7 +17,11 @@
         </p>
         <p>
             Gender:<br>
-            <input type="text" name="gender" value="{{ user.gender }}" required>
+            <select id="gender" name="gender">
+                <option value="male" {% if user.gender == 'male' %} selected {% endif %}>Male</option>
+                <option value="female" {% if user.gender == 'female' %} selected {% endif %}>Female</option>
+                <option value="other" {% if user.gender == 'other' %} selected {% endif %}>Other</option>
+            </select><br><br>
         </p>
         <p>
             Email:<br>
