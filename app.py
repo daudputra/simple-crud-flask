@@ -2,7 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for
 import MySQLdb
 import base64
 
-db = MySQLdb.connect(host='localhost', user='root', password='', database='crud_flask') #? koneki database
+try:
+    db = MySQLdb.connect(host='localhost', user='root', password='', database='crud_flask') #? koneki database
+except MySQLdb.Error as e:
+    print("Error: ", e)
+    print("Error connecting to database")
+except Exception as e:
+    print("Error: ", e)
+    
+
 
 app = Flask(__name__, template_folder='app/templates')
 app.secret_key = '53335'
@@ -12,7 +20,6 @@ def index():
     db.query('SELECT * FROM user_data')
     result = db.store_result()
     data_raw = result.fetch_row(maxrows=0)
-
 
     # ? encode data dari database
     data = []
@@ -53,7 +60,6 @@ def delete(id):
     cursor.close()
 
     return redirect(url_for('index'))
-
 
 @app.route('/edit/<int:id>', methods=['POST', 'GET'])
 def edit(id):
@@ -96,9 +102,12 @@ def edit(id):
         }
     else:
         user_data = None
-
-
     return render_template('edit.html', user=user_data)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    print(e)
+    return render_template('404.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
