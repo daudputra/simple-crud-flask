@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+</head>
+<body>
+    <h1>Edit User</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <p>
+            Name:<br>
+            <input type="text" name="name" value="{{ user.name }}" required>
+        </p>
+        <p>
+            Age:<br>
+            <input type="number" name="age" value="{{ user.age }}" required>
+        </p>
+        <p>
+            Gender:<br>
+            <input type="text" name="gender" value="{{ user.gender }}" required>
+        </p>
+        <p>
+            Email:<br>
+            <input type="email" name="email" value="{{ user.email }}" required>
+        </p>
+        <p>
+            Password:<br>
+            <input type="password" name="passwords" value="{{ user.passwords }}" required>
+        </p>
+        <p>
+            Phone Number:<br>
+            <input type="number" name="phone_number" value="{{ user.phone_number }}" required>
+        </p>
+        <p>
+            Image:<br>
+            {% if user.image %}
+                <img src="data:image/jpeg;base64,{{ user.image }}" alt="User Image" width="100"><br>
+            {% endif %}
+            <input type="file" name="image">
+        </p>
+        <p>
+            <input type="submit" value="Save">
+        </p>
+    </form>
+    <a href="{{ url_for('index') }}">Back to home</a>
+</body>
+</html>

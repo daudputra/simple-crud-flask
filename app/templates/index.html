@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD DATABASE FLASK</title>
+</head>
+<body>
+    <h1>Data from Database</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Passwords</th>
+                <th>Image</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.age }}</td>
+                <td>{{ row.gender }}</td>
+                <td>{{ row.phone_number }}</td>
+                <td>{{ row.email }}</td>
+                <td>{{ row.passwords }}</td>
+                <td><img src="data:image/png;base64,{{ row.image }}" alt="" style="width: 10%;"></td>
+                <td><a href="{{ url_for('edit', id=row.id) }}"><button>Edit</button></a></td>
+                <td><form action="{{ url_for('delete', id=row.id) }}" method="POST">
+                    <button type="submit">Delete</button>
+                </form></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        <button><a href="{{ url_for('create') }}" style="text-decoration: none;">Add data</a></button>
+    </div>
+</body>
+</html>
